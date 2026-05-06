@@ -1,0 +1,28 @@
+aws_region  = "us-east-1"
+aws_profile = "default"
+project     = "openaq-lakehouse"
+
+# Bigger memory speeds up Iceberg writes via PyIceberg/pyarrow at the cost of
+# more dollars per second. 1769 MB == 1 vCPU. Try 3008 MB (~1.7 vCPU) for the
+# bigger benchmark workload.
+lambda_memory_mb = 1769
+lambda_timeout_s = 900
+
+# DISABLED until you've run `make ingest` once and want to start a daily cadence.
+schedule_state      = "DISABLED"
+schedule_expression = "cron(0 6 * * ? *)"
+schedule_payload    = "{\"stations\": 500, \"days\": 1}"
+
+# reader_principal_arns is REQUIRED. Replace 123456789012 with your AWS
+# account ID. The line below is the permissive single-account-lab default:
+# any IAM user or role in that account can assume the reader role. For
+# shared / production accounts, replace with a specific list of user or
+# role ARNs, for example:
+#   ["arn:aws:iam::123456789012:user/jane",
+#    "arn:aws:iam::123456789012:role/data-engineer"]
+reader_principal_arns = ["arn:aws:iam::123456789012:root"]
+
+tags = {
+  project   = "openaq-lakehouse"
+  managedBy = "terraform"
+}

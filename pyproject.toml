@@ -1,0 +1,52 @@
+[project]
+name = "openaq-lakehouse"
+version = "0.1.0"
+description = "OpenAQ air quality lakehouse on Amazon S3 Tables, queryable from DuckDB."
+requires-python = ">=3.13"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Darryl Ruggles" }]
+
+dependencies = [
+    "aws-lambda-powertools[tracer] ~= 3.28",
+    "boto3 ~= 1.40",
+    "pyarrow ~= 22.0",
+    "pyiceberg[s3fs,pyarrow] ~= 0.10",
+    "requests ~= 2.32",
+]
+
+[dependency-groups]
+dev = [
+    "duckdb ~= 1.5.2",
+    "pytest ~= 8.3",
+    "pytest-mock ~= 3.14",
+    "moto[s3,lambda,iam] ~= 5.0",
+    "ruff ~= 0.8",
+    "mypy ~= 1.13",
+    "boto3-stubs[s3,s3tables,lambda,scheduler] ~= 1.40",
+    "pytz>=2026.2",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+extend-exclude = ["frontend", ".venv", "ingester/layer", "ingester/dist"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["ingester/tests"]
+addopts = "-v --tb=short"
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+ignore_missing_imports = true
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["ingester/src"]

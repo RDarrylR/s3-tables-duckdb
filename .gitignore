@@ -1,0 +1,46 @@
+# Terraform - keep .terraform.lock.hcl committed for reproducible installs
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfplan
+*.tfstate.lock.info
+terraform.tfvars
+!terraform.tfvars.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+.env
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Lambda layer build output
+ingester/layer/python/
+ingester/layer/*.zip
+ingester/dist/
+
+# DuckDB local databases
+*.duckdb
+*.duckdb.wal
+
+# Generated session files
+duckdb/.attach.sql
+docs/perf.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local data
+data/
+tmp/
